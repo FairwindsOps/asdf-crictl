@@ -5,7 +5,6 @@
 plugin_name="crictl"
 plugin_owner="kubernetes-sigs"
 plugin_repo="cri-tools"
-expected_hash="your_expected_hash"  # Replace with the expected SHA-512 hash of the binary
 
 platform=$(uname -s | tr '[:upper:]' '[:lower:]')
 cpu_arch=$(uname -m)
