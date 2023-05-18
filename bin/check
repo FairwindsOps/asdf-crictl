@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+=+
+local_version="$1"
+
+os_name="$(uname -s)"
+case "${os_name}" in
+    Linux*)     os=linux;;
+    Darwin*)    os=darwin;;
+    CYGWIN*)    os=windows;;
+    MINGW*)     os=windows;;
+    *)          echo "unknown OS"; exit 1;;
+esac
+
+case "$(uname -m)" in
+    x86_64*)    arch=amd64;;
+    arm64*)     arch=arm64;;
+    *)          echo "unknown architecture"; exit 1;;
+esac
+
+curl --silent --fail "https://github.com/kubernetes-sigs/cri-tools/releases/download/v${local_version}/crictl-v${local_version}-${os}-${arch}.tar.gz" >/dev/null
