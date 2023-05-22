@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+=+
 local_version="$1"
-install_path="$2"
 
 os_name="$(uname -s)"
 case "${os_name}" in
@@ -19,17 +18,4 @@ case "$(uname -m)" in
     *)          echo "unknown architecture"; exit 1;;
 esac
 
-tmpdir="$(mktemp -d)"
-
-pushd "$tmpdir" >/dev/null
-
-binary_url="https://github.com/kubernetes-sigs/cri-tools/releases/download/v${local_version}/crictl-v${local_version}-${os}-${arch}.tar.gz"
-curl -L -o "crictl.tar.gz" "$binary_url"
-
-tar xzf "crictl.tar.gz"
-
-mv "crictl" "$install_path/bin/crictl"
-
-popd >/dev/null
-
-rm -rf "$tmpdir"
+curl --silent --fail "https://github.com/kubernetes-sigs/cri-tools/releases/download/v${local_version}/crictl-v${local_version}-${os}-${arch}.tar.gz" >/dev/null
