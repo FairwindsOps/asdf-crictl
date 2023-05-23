@@ -1,5 +1,7 @@
 # asdf-crictl
 
+[![Build Status](https://github.com/FairwindsOps/asdf-crictl/workflows/master/badge.svg?branch=master)](https://github.com/FairwindsOps/asdf-crictl/actions)
+
 crictl plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
 
 ## Install
@@ -18,9 +20,9 @@ The `ASDF_crictl_OVERWRITE_ARCH` variable can be used to override the architectu
 ### Without `ASDF_crictl_OVERWRITE_ARCH`:
 
 ```
-% asdf install crictl 6.0.0
-Downloading crictl from https://github.com/FairwindsOps/crictl/releases/download/v6.0.0/crictl_6.0.0_darwin_amd64.tar.gz
-% asdf global crictl 6.0.0
+% asdf install crictl 1.27.0
+Downloading crictl from https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-darwin-amd64.tar.gz
+% asdf global crictl 1.27.0
 ```
 
 ### With `ASDF_crictl_OVERWRITE_ARCH`:
