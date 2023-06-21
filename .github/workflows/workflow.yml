@@ -15,17 +15,7 @@ jobs:
           - macos-latest
           - ubuntu-latest
         tool:
-          - boundary
-          - consul
-          - levant
-          - nomad
-          - packer
-          - sentinel
-          - serf
-          - terraform
-          - terraform-ls
-          - vault
-          - waypoint
+          - crictl
 
     runs-on: ${{ matrix.os }}
 
