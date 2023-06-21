@@ -35,7 +35,6 @@ install_crictl() {
   chmod +x ${binary_path}
 }
 
-
 get_filename() {
   echo "crictl-v${1}-${2}.tar.gz"
 }
