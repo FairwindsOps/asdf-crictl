@@ -7,7 +7,7 @@ install_crictl() {
   local install_type=$1
   local version=$2
   local install_path=$3
-  local platform="$(uname | tr '[:upper:]' '[:lower:]')_amd64"
+  local platform="$(uname | tr '[:upper:]' '[:lower:]')-amd64"
   local bin_install_path="$install_path/bin"
   local binary_path="$bin_install_path/crictl"
   local download_url=$(get_download_url $version $platform)
@@ -37,14 +37,14 @@ install_crictl() {
 
 
 get_filename() {
-  echo "crictl-${1}-${2}.tar.gz"
+  echo "crictl-v${1}-${2}.tar.gz"
 }
 
 get_download_url() {
   local version="$1"
   local platform="$2"
   local filename="$(get_filename $version $platform)"
-  echo "https://github.com/FairwindsOps/crictl/releases/download/v${version}/${filename}"
+  echo "https://github.com/kubernetes-sigs/cri-tools/releases/download/v${version}/${filename}"
 }
 
 install_crictl $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
