@@ -1,35 +1,50 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-local_version="$1"
-install_path="$2"
+set -e
+set -o pipefail
 
-os_name="$(uname -s)"
-case "${os_name}" in
-    Linux*)     os=linux;;
-    Darwin*)    os=darwin;;
-    CYGWIN*)    os=windows;;
-    MINGW*)     os=windows;;
-    *)          echo "unknown OS"; exit 1;;
-esac
+install_crictl() {
+  local install_type=$1
+  local version=$2
+  local install_path=$3
+  local platform="$(uname | tr '[:upper:]' '[:lower:]')_amd64"
+  local bin_install_path="$install_path/bin"
+  local binary_path="$bin_install_path/crictl"
+  local download_url=$(get_download_url $version $platform)
 
-case "$(uname -m)" in
-    x86_64*)    arch=amd64;;
-    arm64*)     arch=arm64;;
-    *)          echo "unknown architecture"; exit 1;;
-esac
+  if [ "$TMPDIR" = "" ]; then
+    local tmp_download_dir=$(mktemp -d -t crictl_XXXXXX)
+  else
+    local tmp_download_dir=$TMPDIR
+  fi
 
-tmpdir="$(mktemp -d)"
+  local download_path="$tmp_download_dir/$(get_filename $version $platform)"
 
-pushd "$tmpdir" >/dev/null
+  echo "Downloading crictl from ${download_url} to ${download_path}"
+  curl -Lo $download_path $download_url
 
-binary_url="https://github.com/kubernetes-sigs/cri-tools/releases/download/v${local_version}/crictl-v${local_version}-${os}-${arch}.tar.gz"
-curl -L -o "crictl.tar.gz" "$binary_url"
+  echo "Creating bin directory"
+  mkdir -p "${bin_install_path}"
 
-tar xzf "crictl.tar.gz"
+  echo "Cleaning previous binaries"
+  rm -f $binary_path 2>/dev/null || true
 
-mv "crictl" "$install_path/bin/crictl"
+  echo "Copying binary"
+  tar -zxf ${download_path} --directory $tmp_download_dir
+  cp ${tmp_download_dir}/crictl ${bin_install_path}
+  chmod +x ${binary_path}
+}
 
-popd >/dev/null
 
-rm -rf "$tmpdir"
+get_filename() {
+  echo "crictl-${1}-${2}.tar.gz"
+}
+
+get_download_url() {
+  local version="$1"
+  local platform="$2"
+  local filename="$(get_filename $version $platform)"
+  echo "https://github.com/FairwindsOps/crictl/releases/download/v${version}/${filename}"
+}
+
+install_crictl $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
