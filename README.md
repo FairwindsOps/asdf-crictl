@@ -1,35 +1,61 @@
-# asdf-crictl
+<div align="center">
 
-crictl plugin for [asdf](https://github.com/asdf-vm/asdf) version manager
+# asdf-crictl [![CI](https://github.com/FairwindsOps/asdf-crictl/actions/workflows/workflow.yml/badge.svg?branch=main)](https://github.com/FairwindsOps/asdf-crictl/actions/workflows/workflow.yml) 
 
-## Install
+[crictl](https://github.com/kubernetes-sigs/cri-tools) plugin for the [asdf version manager](https://asdf-vm.com).
 
+</div>
+
+# Contents
+
+- [Dependencies](#dependencies)
+- [Install](#install)
+- [Contributing](#contributing)
+- [License](#license)
+
+# Dependencies
+
+- `bash`, `curl`, `gzip`, `cut`: generic POSIX utilities.
+
+# Install
+
+Plugin:
+
+```shell
+asdf plugin add crictl
+# or
+asdf plugin add crictl https://github.com/FairwindsOps/asdf-crictl.git
 ```
-asdf plugin-add crictl https://github.com/FairwindsOps/asdf-crictl.git
+
+crictl:
+
+```shell
+# Show all installable versions
+asdf list-all crictl
+
+# Install specific version
+asdf install crictl latest
+
+# Set a version globally (on your ~/.tool-versions file)
+asdf global crictl latest
+
+# Now crictl commands are available
+crictl --help
 ```
 
-## Use
+Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
+install & manage versions.
 
-Check out the [asdf documentation](https://asdf-vm.com/#/core-manage-versions?id=install-version) for instructions on how to install and manage versions of crictl.
+# Contributing
 
-## Architecture Override
-The `ASDF_crictl_OVERWRITE_ARCH` variable can be used to override the architecture that is used for determining which `crictl` build to download. The primary use case is when attempting to install an older version of `crictl` for use on an Apple M1 computer as `crictl` was not built for ARM at the time.
+Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-### Without `ASDF_crictl_OVERWRITE_ARCH`:
+[Thanks goes to these contributors](https://github.com/FairwindsOps/asdf-crictl/graphs/contributors)!
 
-```
-% asdf install crictl 6.0.0
-Downloading crictl from https://github.com/FairwindsOps/crictl/releases/download/v6.0.0/crictl_6.0.0_darwin_amd64.tar.gz
-% asdf global crictl 6.0.0
-```
+# License
 
-### With `ASDF_crictl_OVERWRITE_ARCH`:
+See [LICENSE](LICENSE) © [Ivan Valdes](https://github.com/FairwindsOps/)
 
-```
-% ASDF_crictl_OVERWRITE_ARCH=amd64 asdf install crictl 6.0.0-rc.5
-Downloading crictl from https://github.com/FairwindsOps/crictl/releases/download/v6.0.0-rc.5/crictl_6.0.0-rc.5_darwin_amd64.tar.gz
-% asdf global crictl 6.0.0-rc.5
-```
 
 <!-- Begin boilerplate -->
 ## Join the Fairwinds Open Source Community
