@@ -53,7 +53,7 @@ get_platform_code() {
         'arm64') echo 'arm64';;
         'aarch64') echo 'arm64';;
         'amd64') echo 'amd64';;
-        'x86_86') echo 'amd64';;
+        'x86_64') echo 'amd64';;
     esac
 }
 
