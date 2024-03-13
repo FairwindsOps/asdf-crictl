@@ -7,7 +7,8 @@ install_crictl() {
 	local install_type=$1
 	local version=$2
 	local install_path=$3
-	local platform="$(uname | tr '[:upper:]' '[:lower:]')-amd64"
+	local arch="$(uname -m)"
+	local platform="$(uname | tr '[:upper:]' '[:lower:]')-$(get_platform_code $arch)"
 	local bin_install_path="$install_path/bin"
 	local binary_path="$bin_install_path/crictl"
 	local download_url=$(get_download_url $version $platform)
@@ -44,6 +45,16 @@ get_download_url() {
 	local platform="$2"
 	local filename="$(get_filename $version $platform)"
 	echo "https://github.com/kubernetes-sigs/cri-tools/releases/download/v${version}/${filename}"
+}
+
+# This can be extended for all architectures shown here https://github.com/kubernetes-sigs/cri-tools/releases
+get_platform_code() {
+    case $1 in
+        'arm64') echo 'arm64';;
+        'aarch64') echo 'arm64';;
+        'amd64') echo 'amd64';;
+        'x86_86') echo 'amd64';;
+    esac
 }
 
 install_crictl $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
